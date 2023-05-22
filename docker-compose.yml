@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  bot_producer:
+    build:
+      context: ./bot_producer_ec2
+      args:
+        - USER_ID=${USER_ID}
+        - GROUP_ID=${GROUP_ID}
+        - DOCKER_USER=oscar
+    container_name: aws_bot_producer
+    restart: always
+    volumes:
+      - ./bot_producer_ec2:/app
+    command: sh -c "cd /app && npm install && node main.js"
+    tty: true
+    stdin_open: true
+    ports:
+      - "3000:3000"
